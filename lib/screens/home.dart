@@ -28,105 +28,125 @@ class _HomeState extends State<Home> {
       appBar: _buildAppBar(),
       body: Stack(
         children: [
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-            child: Column(
-              children: [
-                searchBox(),
-                Expanded(
-                  child: ListView(
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.only(
-                            top: 50,
-                            bottom: 20
-                        ),
-                        child: const Text(
-                          'All ToDos',
-                          style: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    for ( Todo todo in _foundTodo.reversed)
-                      TodoItem(
-                        todo: todo,
-                        onTodoChanged: _handleTodoChange,
-                        onTodoDeleted: _deleteTodoItem,
-                      )
-                    ]
-                  )
-                )
-              ]
-            )
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    margin: const EdgeInsets.only(
-                      left: 20,
-                      right: 20,
-                      bottom: 20,
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 5,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey,
-                          offset: Offset(0.0, 0.0),
-                          blurRadius: 10.0,
-                          spreadRadius: 0.0,
-                        ),
-                      ],
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: TextField(
-                      controller: _todoController,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.all(0),
-                        border: InputBorder.none,
-                        hintText: 'Add a new todo item',
-                      ),
-                    )
-                  )
-                ),
-                Container(
-                  margin: const EdgeInsets.only(
-                    right: 20,
-                    bottom: 20,
-                  ),
-                  padding: const EdgeInsets.all(15),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      _addTodoItem(_todoController.text);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: tdBlue,
-                      minimumSize: const Size(60, 60),
-                      elevation: 10,
-                    ),
-                    child: const Text(
-                      '+',
-                      style: TextStyle(
-                        fontSize: 40,
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            )
-          )
+          body(),
+          footer()
         ],
       ),
     );
+  }
+
+  Align footer() {
+    return Align(
+          alignment: Alignment.bottomCenter,
+          child: Row(
+            children: [
+              newItemInput(),
+              addItemButton()
+            ],
+          )
+        );
+  }
+
+  Container body() {
+    return Container(
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+          child: Column(
+            children: [
+              searchBox(),
+              Expanded(
+                child: ListView(
+                  children: [
+                    heading(),
+                  for ( Todo todo in _foundTodo.reversed)
+                    TodoItem(
+                      todo: todo,
+                      onTodoChanged: _handleTodoChange,
+                      onTodoDeleted: _deleteTodoItem,
+                    )
+                  ]
+                )
+              )
+            ]
+          )
+        );
+  }
+
+  Container addItemButton() {
+    return Container(
+                margin: const EdgeInsets.only(
+                  right: 20,
+                  bottom: 20,
+                ),
+                padding: const EdgeInsets.all(15),
+                child: ElevatedButton(
+                  onPressed: () {
+                    _addTodoItem(_todoController.text);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: tdBlue,
+                    minimumSize: const Size(60, 60),
+                    elevation: 10,
+                  ),
+                  child: const Text(
+                    '+',
+                    style: TextStyle(
+                      fontSize: 40,
+                    ),
+                  ),
+                ),
+              );
+  }
+
+  Expanded newItemInput() {
+    return Expanded(
+                child: Container(
+                  margin: const EdgeInsets.only(
+                    left: 20,
+                    right: 20,
+                    bottom: 20,
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 5,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey,
+                        offset: Offset(0.0, 0.0),
+                        blurRadius: 10.0,
+                        spreadRadius: 0.0,
+                      ),
+                    ],
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: TextField(
+                    controller: _todoController,
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.all(0),
+                      border: InputBorder.none,
+                      hintText: 'Add a new todo item',
+                    ),
+                  )
+                )
+              );
+  }
+
+  Container heading() {
+    return Container(
+                      margin: const EdgeInsets.only(
+                          top: 50,
+                          bottom: 20
+                      ),
+                      child: const Text(
+                        'All ToDos',
+                        style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    );
   }
 
   void _handleTodoChange(Todo todo) {
@@ -175,7 +195,7 @@ class _HomeState extends State<Home> {
               onChanged: (value) {
                 _runFilter(value);
               },
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 contentPadding: EdgeInsets.all(0),
                 prefixIcon: Icon(
                   Icons.search, color: tdBlack, size: 20
