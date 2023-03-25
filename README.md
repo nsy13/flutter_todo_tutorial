@@ -5,10 +5,9 @@ The tutorial for building this app can be found in this [YouTube video](https://
 
 ## Features
 
-- Add new tasks with a title and description
+- Add new tasks with a title
 - Mark tasks as complete
-- Delete completed tasks
-- Edit task details
+- Delete tasks
 - Search for tasks
 
 ## Getting Started
